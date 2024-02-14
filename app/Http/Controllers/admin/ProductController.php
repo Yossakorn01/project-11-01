@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use File;
 use Image;
@@ -20,13 +21,15 @@ class ProductController extends Controller
         return view('backend.product.index',compact('product'));
 }
 
-    public function create(){
-    return view('backend.product.create');
+public function create(){
+    $category = Category::all();
+    return view('backend.product.create',compact('category'));
 }
 
-    public function edit($product_id){
-        $pro = Product::find($product_id);
-    return view('backend.product.edit',compact('pro'));
+public function edit($product_id){
+    $pro = Product::find($product_id);
+    $cat = Category::all();
+    return view('backend.product.edit',compact('pro','cat'));
 }
 
 
@@ -62,6 +65,8 @@ class ProductController extends Controller
              $product->image = 'no_image.jpg';
         }
         $product->save();
+        alert()->success('บันทึกข้อมูลสำเร็จ','ข้อมูลนีถูกแก้บันถึงเรียบร้อยแล้ว');
+        return redirect('admin/product/index');
 
         $product = Product::orderBy('created_at','desc')->Paginate();
         return view('backend.product.index',compact('product'));
@@ -92,11 +97,9 @@ class ProductController extends Controller
             Image::make(public_path().'/backend/product/'.$filename)->resize(250,250)->save(public_path().'/backend/product/resize/'.$filename);
             $product->image = $filename;
 
-            }else{
-                $product->image = 'no_image.jpg';
             }
             $product->update();
-            alert()->success('บันทึกข้อมูลสำเร็จ','ข้อมูลนีถูกแก้บันถึงเรียบร้อยแล้ว');
+            alert()->success('บันทึกข้อมูลสำเร็จ','ข้อมูลนี้ถูกแก้บันถึงเรียบร้อยแล้ว');
             return redirect('admin/product/index');
         }
 

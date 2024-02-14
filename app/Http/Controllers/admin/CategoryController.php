@@ -46,13 +46,13 @@ class CategoryController extends Controller
         $category = Category::find($category_id);
         $category->name = $request->name;
         $category->update();
-        alert()->success('อัพเดทช้อมูลสำเสร็จ','ข้อมูลนี้อัพเดทเรียบร้อยแล้ว');
+        alert()->success('อัพเดทข้อมูลสำเสร็จ','ข้อมูลนี้อัพเดทเรียบร้อยแล้ว');
         return redirect()->route('c.index');
 }
     public function delete($category_id){
         $category = Category::find($category_id);
         $category->delete();
-        alert()->success('ลบช้อมูลสำเสร็จ','ข้อมูลนี้ลบเรียบร้อยแล้ว');
+        alert()->success('ลบข้อมูลสำเสร็จ','ข้อมูลนี้ลบเรียบร้อยแล้ว');
         return redirect()->route('c.index');
     }
 
